@@ -12,7 +12,7 @@ node {
             userRemoteConfigs: [[credentialsId: credentialsId, url: githubRepoUrl]]
         ])
     }
-
+try {
     // Add more stages for your build, test, and deployment steps here
 
      // Build the Maven application
@@ -24,16 +24,21 @@ node {
             // Execute the Maven build
             sh "mvn clean package" // Adjust the Maven goals as needed
         }
-    
-
-          // Define a post-build step for the "Build" stage to run JUnit tests
-  post {
-            success {
-                echo "Running JUnit tests as a post-build step"
-                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
+} catch (Exception e) {
+        currentBuild.result = 'FAILURE'
+    }finally {
+        // Post-build stage
+        stage('Post') {
+            if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                // Run JUnit tests only if the "Build" stage is successful
+                junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
             }
         }
- }
+    }
+}
+ 
+
+
 
 
 
