@@ -18,7 +18,7 @@ node {
      // Build the Maven application
     stage('Build') {
             // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
-            def mavenHome = tool name: 'Maven', type: 'MavenInstallation'
+            def mavenHome = tool name: 'Maven 3.90', type: 'MavenInstallation'
             env.PATH = "${mavenHome}/bin:${env.PATH}"
 
             // Execute the Maven build
