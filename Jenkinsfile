@@ -17,7 +17,6 @@ node {
 
      // Build the Maven application
     stage('Build') {
-        steps {
             // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
             def mavenHome = tool name: 'Maven', type: 'MavenInstallation'
             env.PATH = "${mavenHome}/bin:${env.PATH}"
@@ -25,7 +24,7 @@ node {
             // Execute the Maven build
             sh "mvn clean package" // Adjust the Maven goals as needed
         }
-    }
+    
 
           // Define a post-build step for the "Build" stage to run JUnit tests
     post {
