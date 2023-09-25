@@ -28,11 +28,12 @@ try {
         currentBuild.result = 'FAILURE'
         throw e  // Re-throw the exception to mark the build as a failure
     }finally {
-        // Post-build stage
-        stage('Post') {
-            if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                // Run JUnit tests only if the "Build" stage is successful
-                junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+      // Post-build stage
+   stage('Post') {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        // Run JUnit tests only if the "Build" stage is successful
+        junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+    }
             }
         }
     }
