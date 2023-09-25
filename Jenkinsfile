@@ -31,7 +31,7 @@ node {
             // Run JUnit tests as a post-build step for the "Build" stage
             step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
         }
-    }
+ }
 
 
-}
+
