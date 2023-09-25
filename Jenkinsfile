@@ -14,4 +14,26 @@ node {
     }
 
     // Add more stages for your build, test, and deployment steps here
+
+     // Build the Maven application
+    stage('Build') {
+        steps {
+            // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
+            def mavenHome = tool name: 'Maven', type: 'MavenInstallation'
+            env.PATH = "${mavenHome}/bin:${env.PATH}"
+
+            // Execute the Maven build
+            sh "mvn clean package" // Adjust the Maven goals as needed
+        }
+    }
+
+          // Define a post-build step for the "Build" stage to run JUnit tests
+    post {
+        success {
+            // Run JUnit tests as a post-build step for the "Build" stage
+            junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+        }
+    }
+
+
 }
