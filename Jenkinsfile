@@ -27,10 +27,9 @@ node {
     
 
           // Define a post-build step for the "Build" stage to run JUnit tests
-    post {
-        success {
+    post('Junit Test')  {
             // Run JUnit tests as a post-build step for the "Build" stage
-            junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
         }
     }
 
