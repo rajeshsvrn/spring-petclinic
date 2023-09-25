@@ -22,18 +22,18 @@ try {
             env.PATH = "${mvnHome}/bin:${env.PATH}"
 
             // Execute the Maven build
-            s "mvn clean package" // Adjust the Maven goals as needed
+            sh "mvn clean package" // Adjust the Maven goals as needed
         }
 } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e  // Re-throw the exception to mark the build as a failure
     }finally {
       // Post-build stage
+     stage('Post') {
    stage('Post') {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-        // Run JUnit tests only if the "Build" stage is successful
-        junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
-    }
+            if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                // Run JUnit tests only if the "Build" stage is successful
+                junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
             }
         }
     }
