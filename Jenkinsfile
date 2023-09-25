@@ -27,9 +27,11 @@ node {
     
 
           // Define a post-build step for the "Build" stage to run JUnit tests
-    post('Junit Test')  {
-            // Run JUnit tests as a post-build step for the "Build" stage
-            step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
+  post {
+            success {
+                echo "Running JUnit tests as a post-build step"
+                step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
+            }
         }
  }
 
