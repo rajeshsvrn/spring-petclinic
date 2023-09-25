@@ -37,7 +37,26 @@ try {
         }
     }
 
-} 
+ stage('SonarQube Analysis') {
+            def scannerHome = tool 'sonarqube' // Ensure you have configured the "SonarQube Scanner" tool in Jenkins
+
+            withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube') {
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=petclinic \
+                    -Dsonar.projectName=petclinic \
+                    -Dsonar.projectVersion=1.0 \
+                    -Dsonar.sources=src/main \
+                    -Dsonar.tests=src/test \
+                    -Dsonar.java.binaries=target/classes \
+                    -Dsonar.language=java \
+                    -Dsonar.sourceEncoding=UTF-8 \
+                    -Dsonar.java.libraries=target/classes
+                """
+            }
+        }
+}   //node end
+
 
 
 
