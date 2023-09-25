@@ -55,6 +55,19 @@ try {
                 """
             }
         }
+stage('Check Quality Gate') {
+    steps {
+        script {
+            def qualityGate = waitForQualityGate() // This step waits for SonarQube to compute the Quality Gate status
+            
+            if (qualityGate.status != 'OK') {
+                error "Quality Gate did not pass. Code quality is below the threshold."
+            }
+        }
+    }
+}
+
+    
 }   //node end
 
 
