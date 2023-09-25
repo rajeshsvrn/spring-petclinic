@@ -22,7 +22,7 @@ try {
             env.PATH = "${mvnHome}/bin:${env.PATH}"
 
             // Execute the Maven build
-            sh "mvn clean package" // Adjust the Maven goals as needed
+            s "mvn clean package" // Adjust the Maven goals as needed
         }
 } catch (Exception e) {
         currentBuild.result = 'FAILURE'
