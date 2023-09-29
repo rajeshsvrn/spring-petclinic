@@ -113,7 +113,7 @@ stage("Publish artifact to nexus") {
 }
 
 stage("Publish artifact to ACR"){
-        docker.withRegistry('docker', 'docker') {
+        docker.withRegistry('docker', 'docker-cred') {
         def customImage = docker.build("my-image:${env.BUILD_ID}")
         /* Push the container to the custom Registry */
         customImage.push()
