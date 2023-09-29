@@ -11,7 +11,7 @@ node {
 
     // def ACR_NAME = 'petcliniccontainer.azurecr.io'
     // def ACR_USERNAME = 'petcliniccontainer'
-    // def ACR_PASSWORD = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
+       def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
 
     
     def DOCKER_IMAGE_NAME = 'mydockerimage'
