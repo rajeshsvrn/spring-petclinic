@@ -32,8 +32,8 @@ try {
         }
 } catch (Exception e) {
         currentBuild.result = 'FAILURE'
-        throw e  // Re-throw the exception to mark the build as a failure
-    }finally {
+        error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
+    } finally {
       // Post-build stage
    stage('Post') {
             if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
