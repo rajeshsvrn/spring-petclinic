@@ -113,18 +113,10 @@ stage("Publish artifact to nexus") {
 }
 
 stage("Publish artifact to ACR"){
-    try {
-           docker.withRegistry('docker', 'docker') {
-
+        docker.withRegistry('docker', 'docker') {
         def customImage = docker.build("my-image:${env.BUILD_ID}")
-
         /* Push the container to the custom Registry */
         customImage.push()
-               
-    } catch (Exception e) {
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
         // Clean up any Docker resources if needed
         sh 'echo $(whoami)'
         sh 'docker system prune -f'
