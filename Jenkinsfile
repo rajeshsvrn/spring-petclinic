@@ -127,7 +127,7 @@ stage("Publish artifact to ACR"){
         throw e
     } finally {
         // Clean up any Docker resources if needed
-        echo $USER
+        echo whomi
         sh 'docker system prune -f'
     }
 }
