@@ -13,6 +13,8 @@ node {
     // def ACR_USERNAME = 'petcliniccontainer'
        // def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
 
+    def acrCredentials = credentials('docker-cred')
+
     
     def DOCKER_IMAGE_NAME = 'mydockerimage'
     def DOCKER_IMAGE_TAG = 'latest'
@@ -116,14 +118,14 @@ stage("Publish artifact to ACR"){
     def dockerImageName = 'mydockerimage'
     def dockerImageTag = 'latest'
     def acrName = 'petcliniccontainer.azurecr.io'
-    def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL'
+    // def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL'
 
      // Define the Dockerfile location (adjust as needed)
      def dockerfileDir = '.'
 
     try {
         // Pull ACR credentials from Jenkins global credentials
-        // def acrCredentials = credentials('docker-cred')
+         // def acrCredentials = credentials('docker-cred')
 
         // Build the Docker image
         def dockerImage = docker.build("${dockerImageName}:${dockerImageTag}", dockerfileDir)
