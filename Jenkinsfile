@@ -30,7 +30,7 @@ try {
     // Add more stages for your build, test, and deployment steps here
 
      // Build the Maven application
-    stage('Build') {
+    stage('Build SW') {
             // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
             def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
             env.PATH = "${mvnHome}/bin:${env.PATH}"
@@ -43,7 +43,7 @@ try {
         error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
     } finally {
       // Post-build stage
-   stage('Post') {
+   stage('Junit Test') {
             if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
                 // Run JUnit tests only if the "Build" stage is successful
                 junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
@@ -112,9 +112,8 @@ stage("Publish artifact to nexus") {
     }
 }
 
-
+stage("Publish artifact to ACR")
     try {
-     
         // Build the Docker image using the Dockerfile in the root folder
         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
 
