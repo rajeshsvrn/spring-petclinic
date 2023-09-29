@@ -11,7 +11,7 @@ node {
 
     // def ACR_NAME = 'petcliniccontainer.azurecr.io'
     // def ACR_USERNAME = 'petcliniccontainer'
-       def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
+       // def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
 
     
     def DOCKER_IMAGE_NAME = 'mydockerimage'
@@ -116,6 +116,7 @@ stage("Publish artifact to ACR"){
     def dockerImageName = 'mydockerimage'
     def dockerImageTag = 'latest'
     def acrName = 'petcliniccontainer.azurecr.io'
+    def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL'
 
      // Define the Dockerfile location (adjust as needed)
      def dockerfileDir = '.'
