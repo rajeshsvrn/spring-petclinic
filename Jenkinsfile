@@ -112,7 +112,7 @@ stage("Publish artifact to nexus") {
     }
 }
 
-stage("Publish artifact to ACR")
+stage("Publish artifact to ACR"){
     try {
         // Build the Docker image using the Dockerfile in the root folder
         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
@@ -129,7 +129,7 @@ stage("Publish artifact to ACR")
         // Clean up any Docker resources if needed
         sh 'docker system prune -f'
     }
-
+}
     
 }   //node end
 
