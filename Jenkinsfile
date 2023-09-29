@@ -113,12 +113,30 @@ stage("Publish artifact to nexus") {
 }
 
 stage("Publish artifact to ACR"){
-        docker.withRegistry('docker', 'docker-cred') {
-        def customImage = docker.build("my-image:${env.BUILD_ID}")
-        /* Push the container to the custom Registry */
-        customImage.push()
+    def dockerImageName = 'mydockerimage'
+    def dockerImageTag = 'latest'
+    def acrName = 'petcliniccontainer.azurecr.io'
+
+    // // Define the Dockerfile location (adjust as needed)
+    // def dockerfileDir = './path/to/Dockerfile'
+
+    try {
+        // Pull ACR credentials from Jenkins global credentials
+        def acrCredentials = credentials('docker-cred')
+
+        // Build the Docker image
+        def dockerImage = docker.build("${dockerImageName}:${dockerImageTag}", dockerfileDir)
+
+        // Authenticate with ACR using the credentials
+        docker.withRegistry(acrName, acrCredentials) {
+            // Push the Docker image to ACR
+            dockerImage.push()
+        }
+    } catch (Exception e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
         // Clean up any Docker resources if needed
-        sh 'echo $(whoami)'
         sh 'docker system prune -f'
     }
 }
