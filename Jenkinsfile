@@ -118,7 +118,7 @@ stage("Publish artifact to ACR"){
         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
 
         // Log in to your Azure Container Registry (ACR)
-        docker.withRegistry("petcliniccontainer.azurecr.io","petcliniccontainer","cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL") {
+        docker.withRegistry("https://petcliniccontainer.azurecr.io","petcliniccontainer","cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL") {
             // Push the Docker image to ACR
             dockerImage.push()
         }
