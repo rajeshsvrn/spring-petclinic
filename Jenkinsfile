@@ -128,7 +128,7 @@ stage("Publish artifact to ACR"){
         def dockerImage = docker.build("${dockerImageName}:${dockerImageTag}", dockerfileDir)
 
         // Authenticate with ACR using the credentials
-        docker.withRegistry("${acrName}","${acrCredentials}) {
+        docker.withRegistry("${acrName}","${acrCredentials}") {
             // Push the Docker image to ACR
             dockerImage.push()
         }
