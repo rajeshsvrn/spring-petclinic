@@ -122,7 +122,7 @@ stage("Publish artifact to ACR"){
 
     try {
         // Pull ACR credentials from Jenkins global credentials
-        def acrCredentials = credentials('docker-cred')
+        // def acrCredentials = credentials('docker-cred')
 
         // Build the Docker image
         def dockerImage = docker.build("${dockerImageName}:${dockerImageTag}", dockerfileDir)
