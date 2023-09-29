@@ -9,9 +9,9 @@ node {
     def NEXUS_REPOSITORY = "maven-hosted"
     def NEXUS_CREDENTIAL_ID = "nexus"
 
-    def ACR_NAME = 'petcliniccontainer.azurecr.io'
-    def ACR_USERNAME = 'petcliniccontainer'
-    def ACR_PASSWORD = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
+    // def ACR_NAME = 'petcliniccontainer.azurecr.io'
+    // def ACR_USERNAME = 'petcliniccontainer'
+    // def ACR_PASSWORD = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
 
     
     def DOCKER_IMAGE_NAME = 'mydockerimage'
@@ -118,7 +118,7 @@ stage("Publish artifact to ACR"){
         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
 
         // Log in to your Azure Container Registry (ACR)
-        docker.withRegistry("${ACR_NAME},${ACR_USERNAME},${ACR_PASSWORD}") {
+        docker.withRegistry("petcliniccontainer.azurecr.io","petcliniccontainer","cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL") {
             // Push the Docker image to ACR
             dockerImage.push()
         }
