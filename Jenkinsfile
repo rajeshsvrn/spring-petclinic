@@ -117,8 +117,8 @@ stage("Publish artifact to ACR"){
     def dockerImageTag = 'latest'
     def acrName = 'petcliniccontainer.azurecr.io'
 
-    // // Define the Dockerfile location (adjust as needed)
-    // def dockerfileDir = './path/to/Dockerfile'
+     // Define the Dockerfile location (adjust as needed)
+     def dockerfileDir = '.'
 
     try {
         // Pull ACR credentials from Jenkins global credentials
