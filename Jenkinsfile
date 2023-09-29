@@ -118,7 +118,7 @@ stage("Publish artifact to ACR"){
         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
 
         // Log in to your Azure Container Registry (ACR)
-        docker.withRegistry("${ACR_NAME}","${ACR_USERNAME}","${ACR_PASSWORD}") {
+        docker.withRegistry("${ACR_NAME},${ACR_USERNAME},${ACR_PASSWORD}") {
             // Push the Docker image to ACR
             dockerImage.push()
         }
