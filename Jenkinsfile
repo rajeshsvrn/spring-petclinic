@@ -114,14 +114,13 @@ stage("Publish artifact to nexus") {
 
 stage("Publish artifact to ACR"){
     try {
-        // Build the Docker image using the Dockerfile in the root folder
-        def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", '.')
+           docker.withRegistry('docker', 'docker') {
 
-        // Log in to your Azure Container Registry (ACR)
-        docker.withRegistry("https://petcliniccontainer.azurecr.io","petcliniccontainer","cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL") {
-            // Push the Docker image to ACR
-            dockerImage.push()
-        }
+        def customImage = docker.build("my-image:${env.BUILD_ID}")
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+               
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
