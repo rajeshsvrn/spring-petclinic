@@ -130,7 +130,7 @@ stage("Publish artifact to nexus") {
         // Clean up any Docker resources if needed
         sh 'docker system prune -f'
     }
-}
+
     
 }   //node end
 
