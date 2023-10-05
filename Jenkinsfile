@@ -151,9 +151,7 @@ stage("Publish artifact to nexus") {
     try {
     
      //Authenticate to Azure using Azure Service Principal credentials
-    withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
-                                                    subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
-                                                     resourceGroup: 'CICD-gr')]) {
+    withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID')]) {
      
             sh "pwd"
 
