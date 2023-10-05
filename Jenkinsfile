@@ -114,35 +114,35 @@ stage("Publish artifact to nexus") {
     }
 }
 
-stage("Publish artifact to ACR"){
-    def dockerImageName = 'mydockerimage'
-    def dockerImageTag = 'latest'
-    def acrName = 'petcliniccontainer.azurecr.io'
-    // def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL'
+node {
+    def ACR_NAME = 'petcliniccontainer'
+    def IMAGE_NAME = 'petimage'
+    def IMAGE_TAG = 'petimage'
+    def AZURE_CREDENTIALS_ID = '25559edf-b103-462c-86d7-eb4259902a5d'
 
-     // Define the Dockerfile location (adjust as needed)
-     def dockerfileDir = '.'
 
-    try {
-        // Pull ACR credentials from Jenkins global credentials
-         // def acrCredentials = credentials('docker-cred')
+    stage('Build and Push Container Image') {
+        try {
+            // Authenticate to Azure using Azure Service Principal credentials
+            withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID, 
+                                                    subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
+                                                    resourceGroup: 'CICD-gr')]) {
+                // Build the Docker image
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
 
-        // Build the Docker image
-        def dockerImage = docker.build("${dockerImageName}:${dockerImageTag}", dockerfileDir)
+                // Tag the Docker image for ACR
+                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
-        // Authenticate with ACR using the credentials
-        docker.withRegistry("${acrName}","${acrCredentials}") {
-            // Push the Docker image to ACR
-            dockerImage.push()
+                // Push the Docker image to ACR
+                sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+            }
+        } catch (Exception e) {
+            currentBuild.result = 'FAILURE'
+            throw e
         }
-    } catch (Exception e) {
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-        // Clean up any Docker resources if needed
-        sh 'docker system prune -f'
     }
 }
+
     
 }   //node end
 
