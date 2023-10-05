@@ -118,7 +118,7 @@ node {
                                                     subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
                                                     resourceGroup: 'CICD-gr')]) {
                 // Build the Docker image
-                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ./target"
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG /var/lib/jenkins/workspace/CICD project /target"
 
                 // Tag the Docker image for ACR
                 sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
