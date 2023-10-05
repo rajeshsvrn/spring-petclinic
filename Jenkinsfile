@@ -10,7 +10,7 @@ node {
     def NEXUS_CREDENTIAL_ID = "nexus"
 
 
-     def ACR_NAME = 'petcliniccontainer'
+     def ACR_NAME = 'petcliniccontainer.azurecr.io'
      def IMAGE_NAME = 'petimage'
      def IMAGE_TAG = 'petimage'
 
@@ -163,10 +163,10 @@ stage("Publish artifact to nexus") {
                 sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
 
                 // Tag the Docker image for ACR
-                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
 
                 // Push the Docker image to ACR
-                sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+                sh "docker push $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
             }
         }
     } catch (Exception e) {
