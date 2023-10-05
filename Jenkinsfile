@@ -9,16 +9,6 @@ node {
     def NEXUS_REPOSITORY = "maven-hosted"
     def NEXUS_CREDENTIAL_ID = "nexus"
 
-    // def ACR_NAME = 'petcliniccontainer.azurecr.io'
-    // def ACR_USERNAME = 'petcliniccontainer'
-       // def acrCredentials = 'cfktpDaQi8jAI9hNZrlDgvBn5cftc+vnH9yaK8c8XX+ACRCA2WpL' // Replace with your ACR password
-
-    def acrCredentials = credentials('docker-cred')
-
-    
-    def DOCKER_IMAGE_NAME = 'mydockerimage'
-    def DOCKER_IMAGE_TAG = 'latest'
-
     // Checkout the GitHub repository
     stage('Checkout') {
         checkout([$class: 'GitSCM',
