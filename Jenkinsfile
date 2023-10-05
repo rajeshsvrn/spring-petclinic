@@ -10,9 +10,9 @@ node {
     def NEXUS_CREDENTIAL_ID = "nexus"
 
 
-     def ACR_NAME = 'petcliniccontainer.azurecr.io'
-     def IMAGE_NAME = 'petimage'
-     def IMAGE_TAG = 'petimage'
+     // def ACR_NAME = 'petcliniccontainer.azurecr.io'
+     // def IMAGE_NAME = 'petimage'
+     // def IMAGE_TAG = 'petimage'
 
     // Checkout the GitHub repository
     stage('Checkout') {
