@@ -147,32 +147,66 @@ stage("Publish artifact to nexus") {
 // }
 
 
-    stage('Build and Push Container Image') {
+//     stage('Build and Push Container Image') {
+//     try {
+    
+//      //Authenticate to Azure using Azure Service Principal credentials
+//     withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID')]) {
+     
+//             sh "pwd"
+
+//             // Change the directory for this stage
+//             dir('/var/lib/jenkins/workspace/CICD project') {
+//                 // Build the Docker image
+//                 sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+
+//                 // Tag the Docker image for ACR
+//                 sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
+
+//                 // Push the Docker image to ACR
+//                 sh "docker push $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
+//             }
+//         }
+//     } catch (Exception e) {
+//         currentBuild.result = 'FAILURE'
+//         throw e
+//     }
+// }
+
+
+stage('Build and Push Container Image') {
+    def ACR_NAME = 'petcliniccontainer'
+    def IMAGE_NAME = 'petclinic'
+    def IMAGE_TAG = 'petclinic'
+    def ACR_ACCESS_KEY = '3bh0eRebxSjMuZgafQECZZWDyFY5b4P/tov6RwGLCc+ACRB4g0r7'
     try {
     
-     //Authenticate to Azure using Azure Service Principal credentials
-    withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID')]) {
-     
-            sh "pwd"
-
-            // Change the directory for this stage
-            dir('/var/lib/jenkins/workspace/CICD project') {
-                // Build the Docker image
-                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
-
-                // Tag the Docker image for ACR
-                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
-
-                // Push the Docker image to ACR
-                sh "docker push $ACR_NAME/$IMAGE_NAME:$IMAGE_TAG"
+      // Authenticate Docker with ACR using the access key
+        stage('Docker Login') {
+            withCredentials([string(credentialsId: 'ACR_ACCESS_KEY', variable: 'ACR_ACCESS_KEY')]) {
+                sh """
+                    docker login ${ACR_NAME}.azurecr.io -u ${ACR_NAME} -p \${ACR_ACCESS_KEY}
+                """
+       // Build and push the Docker image
+        stage('Build and Push Docker Image') {
+            dir('/path/to/your/app') { // Change to the directory containing your Dockerfile and application code
+                sh """
+                    docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                    docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
+                    docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
+                """
             }
         }
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
+    } finally {
+        // Logout from Docker (optional)
+        stage('Docker Logout') {
+            sh 'docker logout'
+        }
     }
 }
-
 
     
  }   //node end
