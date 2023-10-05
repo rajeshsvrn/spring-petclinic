@@ -104,45 +104,45 @@ stage("Publish artifact to nexus") {
     }
 }
 
-node {
-    def ACR_NAME = 'petcliniccontainer'
-    def IMAGE_NAME = 'petimage'
-    def IMAGE_TAG = 'petimage'
-    //def AZURE_CREDENTIALS_ID = '25559edf-b103-462c-86d7-eb4259902a5d'
+// node {
+//     def ACR_NAME = 'petcliniccontainer'
+//     def IMAGE_NAME = 'petimage'
+//     def IMAGE_TAG = 'petimage'
+//     //def AZURE_CREDENTIALS_ID = '25559edf-b103-462c-86d7-eb4259902a5d'
 
 
-    stage('Build and Push Container Image') {
-        try {
-            // Authenticate to Azure using Azure Service Principal credentials
-            withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
-                                                    subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
-                                                    resourceGroup: 'CICD-gr')]) {
+//     stage('Build and Push Container Image') {
+//         try {
+//             // Authenticate to Azure using Azure Service Principal credentials
+//             withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
+//                                                     subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
+//                                                     resourceGroup: 'CICD-gr')]) {
 
-                //echo current directory
-                sh "pwd"
+//                 //echo current directory
+//                 sh "pwd"
                 
                 
-                // Build the Docker image
-                sh "docker buildx build -f /var/lib/jenkins/workspace/CICD_project/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG ."
+//                 // Build the Docker image
+//                 sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
 
 
-                // Tag the Docker image for ACR
-                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+//                 // Tag the Docker image for ACR
+//                 sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
-                // Push the Docker image to ACR
-                sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+//                 // Push the Docker image to ACR
+//                 sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
                 
-            }
-        } catch (Exception e) {
-            currentBuild.result = 'FAILURE'
-            throw e
-        }
-    }
-}
+//             }
+//         } catch (Exception e) {
+//             currentBuild.result = 'FAILURE'
+//             throw e
+//         }
+//     }
+// }
 
     
-}   //node end
+// }   //node end
 
 
 
