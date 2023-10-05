@@ -118,7 +118,7 @@ node {
     def ACR_NAME = 'petcliniccontainer'
     def IMAGE_NAME = 'petimage'
     def IMAGE_TAG = 'petimage'
-    def AZURE_CREDENTIALS_ID = '25559edf-b103-462c-86d7-eb4259902a5d'
+    //def AZURE_CREDENTIALS_ID = '25559edf-b103-462c-86d7-eb4259902a5d'
 
 
     stage('Build and Push Container Image') {
