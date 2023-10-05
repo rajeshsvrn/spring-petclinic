@@ -123,7 +123,7 @@ node {
                 
                 
                 // Build the Docker image
-                sh "docker build -f /var/lib/jenkins/workspace/CICD_project/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG ."
+                sh "docker buildx build -f /var/lib/jenkins/workspace/CICD_project/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG ."
 
 
                 // Tag the Docker image for ACR
