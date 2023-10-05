@@ -150,7 +150,8 @@ stage("Publish artifact to nexus") {
     stage('Build and Push Container Image') {
     try {
     
-     Authenticate to Azure using Azure Service Principal credentials
+     //Authenticate to Azure using Azure Service Principal credentials
+        
              withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
                                                     subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
                                                      resourceGroup: 'CICD-gr')]) {
