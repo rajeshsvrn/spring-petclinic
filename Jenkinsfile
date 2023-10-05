@@ -119,11 +119,11 @@ node {
                                                     resourceGroup: 'CICD-gr')]) {
 
                 //echo current directory
-                sh "echo pwd"
+                sh "pwd"
 
                 
                 // Build the Docker image
-                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG /var/lib/jenkins/workspace/CICD project/target"
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
 
                 // Tag the Docker image for ACR
                 sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
