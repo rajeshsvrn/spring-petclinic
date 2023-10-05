@@ -179,15 +179,18 @@ stage('Build and Push Container Image') {
     def IMAGE_NAME = 'petclinic'
     def IMAGE_TAG = 'petclinic'
     def ACR_ACCESS_KEY = '3bh0eRebxSjMuZgafQECZZWDyFY5b4P/tov6RwGLCc+ACRB4g0r7'
+
     try {
-    
-      // Authenticate Docker with ACR using the access key
+        // Authenticate Docker with ACR using the access key
         stage('Docker Login') {
             withCredentials([string(credentialsId: 'ACR_ACCESS_KEY', variable: 'ACR_ACCESS_KEY')]) {
                 sh """
                     docker login ${ACR_NAME}.azurecr.io -u ${ACR_NAME} -p \${ACR_ACCESS_KEY}
                 """
-       // Build and push the Docker image
+            }
+        }
+
+        // Build and push the Docker image
         stage('Build and Push Docker Image') {
             dir('/path/to/your/app') { // Change to the directory containing your Dockerfile and application code
                 sh """
@@ -204,12 +207,9 @@ stage('Build and Push Container Image') {
         // Logout from Docker (optional)
         stage('Docker Logout') {
             sh 'docker logout'
-            }
         }
     }
 }
-}
-
     
  }   //node end
 
