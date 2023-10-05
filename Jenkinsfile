@@ -157,7 +157,7 @@ stage("Publish artifact to nexus") {
             sh "pwd"
 
             // Change the directory for this stage
-            dir('/var/lib/jenkins/workspace/CICD_project') {
+            dir('/var/lib/jenkins/workspace/CICD project') {
                 // Build the Docker image
                 sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
 
