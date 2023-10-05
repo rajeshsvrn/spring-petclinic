@@ -141,6 +141,36 @@ stage("Publish artifact to nexus") {
 //     }
 // }
 
+
+    stage('Build and Push Container Image') {
+    try {
+        // Authenticate to Azure using Azure Service Principal credentials
+        withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
+                                                subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
+                                                resourceGroup: 'CICD-gr')]) {
+
+            //echo current directory
+            sh "pwd"
+
+            // Change the directory for this stage
+            dir('/var/lib/jenkins/workspace/CICD_project') {
+                // Build the Docker image
+                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+
+                // Tag the Docker image for ACR
+                sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+
+                // Push the Docker image to ACR
+                sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+            }
+        }
+    } catch (Exception e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    }
+}
+
+
     
  }   //node end
 
