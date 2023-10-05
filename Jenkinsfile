@@ -121,9 +121,10 @@ node {
                 //echo current directory
                 sh "pwd"
                 
-                dir('/var/lib/jenkins/workspace/CICD_project@2'){
+                
                 // Build the Docker image
-                sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+                sh "docker build -f /var/lib/jenkins/workspace/CICD_project/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG ."
+
 
                 // Tag the Docker image for ACR
                 sh "docker tag $IMAGE_NAME:$IMAGE_TAG $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
@@ -131,7 +132,7 @@ node {
                 // Push the Docker image to ACR
                 sh "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
-                }    
+                
             }
         } catch (Exception e) {
             currentBuild.result = 'FAILURE'
