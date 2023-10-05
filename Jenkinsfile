@@ -143,6 +143,10 @@ stage("Publish artifact to nexus") {
 
 
     stage('Build and Push Container Image') {
+
+       def ACR_NAME = 'petcliniccontainer'
+       def IMAGE_NAME = 'petimage'
+       def IMAGE_TAG = 'petimage'
     try {
         // Authenticate to Azure using Azure Service Principal credentials
         withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
