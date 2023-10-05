@@ -192,7 +192,7 @@ stage('Build and Push Container Image') {
 
         // Build and push the Docker image
         stage('Build and Push Docker Image') {
-            dir('/path/to/your/app') { // Change to the directory containing your Dockerfile and application code
+            dir('/var/lib/jenkins/workspace/CICD project') { // Change to the directory containing your Dockerfile and application code
                 sh """
                     docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                     docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
