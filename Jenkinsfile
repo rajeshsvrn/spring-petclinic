@@ -152,10 +152,11 @@ stage("Publish artifact to nexus") {
     
      //Authenticate to Azure using Azure Service Principal credentials
         
-             withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID', 
-                                                    subscriptionId: '820b6969-ff53-431e-89cc-0377b9dcbab2',
-                                                     resourceGroup: 'CICD-gr')]) {
-
+             withCredentials([azureServicePrincipal(credentialsId: 'AZURE_CREDENTIALS_ID')]) {
+            sh echo "Azure Subscription ID: ${AZURE_SUBSCRIPTION_ID}"
+            sh echo "Azure Tenant ID: ${AZURE_TENANT_ID}"
+            sh echo "Azure Client Secret: ${AZURE_CLIENT_SECRET}"
+            sh echo "Azure Client ID: ${AZURE_CLIENT_ID}"
             //echo current directory
             sh "pwd"
 
