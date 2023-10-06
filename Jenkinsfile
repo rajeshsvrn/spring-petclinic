@@ -8,6 +8,7 @@ node {
     def NEXUS_URL = "20.121.118.242:8081"
     def NEXUS_REPOSITORY = "maven-hosted"
     def NEXUS_CREDENTIAL_ID = "nexus"
+    def kube_id = "kube"
 
 
      // def ACR_NAME = 'petcliniccontainer.azurecr.io'
@@ -210,7 +211,7 @@ stage('Build and Push Container Image') {
 
 stage('Deploy to Kubernetes') {
             // Configure Kubernetes credentials (kubeconfig)
-            withCredentials([file(credentialsId: 'kube', variable: 'kube')]) {
+            withCredentials([file(credentialsId: 'kube_id', variable: 'kube_id')]) {
                 // Apply the Kubernetes deployment YAML file
                 sh 'kubectl apply --kubeconfig=$KUBECONFIG -f Deployment.yaml'
             }
