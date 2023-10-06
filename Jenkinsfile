@@ -196,6 +196,7 @@ stage('Build and Push Container Image') {
                     docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
                 """
             }
+        }       
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
