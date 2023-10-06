@@ -206,7 +206,7 @@ stage('Build and Push Container Image') {
             sh 'docker logout'
         }
     }
-}
+
     
  }   //node end
 
