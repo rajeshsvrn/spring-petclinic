@@ -213,7 +213,8 @@ stage('Deploy to Kubernetes') {
             // Configure Kubernetes credentials (kubeconfig)
             withCredentials([file(credentialsId: 'KUBE_ID', variable: 'KUBE_ID')]) {
                 // Apply the Kubernetes deployment YAML file
-                sh 'echo pwd'
+                sh 'pwd'
+                sh "echo KUBE_ID"
                 sh 'kubectl apply --kubeconfig=$KUBE_ID -f Deployment.yaml'
             }
         }
