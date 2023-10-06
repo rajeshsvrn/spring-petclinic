@@ -215,7 +215,7 @@ stage('Deploy to Kubernetes') {
                 // Apply the Kubernetes deployment YAML file
                 sh 'pwd'
                 sh "echo KUBE_ID: ${KUBE_ID}"
-                sh 'kubectl apply --kubeconfig=\${KUBE_ID} -f Deployment.yaml'
+                sh "kubectl apply --kubeconfig=\${KUBE_ID} -f Deployment.yaml"
             }
         }
 
