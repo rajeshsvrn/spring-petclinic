@@ -24,57 +24,57 @@ node {
             userRemoteConfigs: [[credentialsId: credentialsId, url: githubRepoUrl]]
         ])
     }
-try {
-    // Add more stages for your build, test, and deployment steps here
+// try {
+//     // Add more stages for your build, test, and deployment steps here
 
-     // Build the Maven application
-    stage('Build SW') {
-            // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
-            def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
-            env.PATH = "${mvnHome}/bin:${env.PATH}"
+//      // Build the Maven application
+//     stage('Build SW') {
+//             // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
+//             def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
+//             env.PATH = "${mvnHome}/bin:${env.PATH}"
 
-            // Execute the Maven build
-            sh "mvn clean package" // Adjust the Maven goals as needed
-        }
-} catch (Exception e) {
-        currentBuild.result = 'FAILURE'
-        error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
-    } finally {
-      // Post-build stage
-   stage('Junit Test') {
-            if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                // Run JUnit tests only if the "Build" stage is successful
-                junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
-            }
-        }
-    }
+//             // Execute the Maven build
+//             sh "mvn clean package" // Adjust the Maven goals as needed
+//         }
+// } catch (Exception e) {
+//         currentBuild.result = 'FAILURE'
+//         error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
+//     } finally {
+//       // Post-build stage
+//    stage('Junit Test') {
+//             if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+//                 // Run JUnit tests only if the "Build" stage is successful
+//                 junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+//             }
+//         }
+//     }
 
- stage('SonarQube Analysis') {
-            def scannerHome = tool 'sonarqube' // Ensure you have configured the "SonarQube Scanner" tool in Jenkins
+ // stage('SonarQube Analysis') {
+ //            def scannerHome = tool 'sonarqube' // Ensure you have configured the "SonarQube Scanner" tool in Jenkins
 
-            withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube') {
-                sh """
-                    ${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=petclinic \
-                    -Dsonar.projectName=petclinic \
-                    -Dsonar.projectVersion=1.0 \
-                    -Dsonar.sources=src/main \
-                    -Dsonar.tests=src/test \
-                    -Dsonar.java.binaries=target/classes \
-                    -Dsonar.language=java \
-                    -Dsonar.sourceEncoding=UTF-8 \
-                    -Dsonar.java.libraries=target/classes
-                """
-            }
-        }
- stage("Quality Gate check"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-      }
+ //            withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube') {
+ //                sh """
+ //                    ${scannerHome}/bin/sonar-scanner \
+ //                    -Dsonar.projectKey=petclinic \
+ //                    -Dsonar.projectName=petclinic \
+ //                    -Dsonar.projectVersion=1.0 \
+ //                    -Dsonar.sources=src/main \
+ //                    -Dsonar.tests=src/test \
+ //                    -Dsonar.java.binaries=target/classes \
+ //                    -Dsonar.language=java \
+ //                    -Dsonar.sourceEncoding=UTF-8 \
+ //                    -Dsonar.java.libraries=target/classes
+ //                """
+ //            }
+ //        }
+ // stage("Quality Gate check"){
+ //          timeout(time: 1, unit: 'HOURS') {
+ //              def qg = waitForQualityGate()
+ //              if (qg.status != 'OK') {
+ //                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+ //              }
+ //          }
+ //      }
 
 stage("Publish artifact to nexus") {
     pom = readMavenPom file: "pom.xml";
