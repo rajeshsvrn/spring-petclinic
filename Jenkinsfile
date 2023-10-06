@@ -180,6 +180,7 @@ stage('Build and Push Container Image') {
     def IMAGE_TAG = 'petclinic'
     def ACR_ACCESS_KEY = 'mKpQSr+zhPRk1I+Lmh50lVV+xczZQ5ZstRQyyaGpNK+ACRBxmJxQ'
 
+    try {
         // Authenticate Docker with ACR using the access key
             withCredentials([string(credentialsId: 'ACR_ACCESS_KEY', variable: 'ACR_ACCESS_KEY')]) {
                 sh """
