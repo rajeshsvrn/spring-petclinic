@@ -203,7 +203,6 @@ stage('Build and Push Container Image') {
         throw e
     } finally {
         // Logout from Docker (optional)
-        stage('Docker Logout') {
             sh 'docker logout'
         }
     }
