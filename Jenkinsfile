@@ -207,10 +207,15 @@ stage('Build and Push Container Image') {
         }
     }
     
+
+stage('Deploy to Kubernetes') {
+            // Configure Kubernetes credentials (kubeconfig)
+            withCredentials([file(credentialsId: 'kube', variable: 'kube')]) {
+                // Apply the Kubernetes deployment YAML file
+                sh 'kubectl apply --kubeconfig=$KUBECONFIG -f deployment.yaml'
+            }
+        }
+
 }   //node end
-
-
-
-
 
 
