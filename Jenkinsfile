@@ -185,7 +185,7 @@ stage('Build and Push Container Image') {
                 sh """
                     docker login ${ACR_NAME}.azurecr.io -u ${ACR_NAME} -p \${ACR_ACCESS_KEY}
                 """
-
+            }
 
         // Build and push the Docker image
        
@@ -196,7 +196,7 @@ stage('Build and Push Container Image') {
                     docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
                 """
             }
-        }       
+              
     } catch (Exception e) {
         currentBuild.result = 'FAILURE'
         throw e
