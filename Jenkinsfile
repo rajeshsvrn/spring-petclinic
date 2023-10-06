@@ -8,7 +8,7 @@ node {
     def NEXUS_URL = "20.121.118.242:8081"
     def NEXUS_REPOSITORY = "maven-hosted"
     def NEXUS_CREDENTIAL_ID = "nexus"
-    def KUBE_ID = "kube"
+    def KUBE_ID = "KUBE_ID"
 
 
      // def ACR_NAME = 'petcliniccontainer.azurecr.io'
