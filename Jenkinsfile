@@ -143,7 +143,14 @@ try {
             sh 'docker logout'
         }
     }
-    
+
+    stage('Deploy to Kubernetes') {
+            // Configure Kubernetes credentials (kubeconfig)
+           withKubeConfig([credentialsId: 'K8S', serverUrl: '']) {
+                sh ('kubectl apply -f  Deployment.yaml')
+            }
+        }
+
 
 } //node
 
