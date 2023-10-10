@@ -31,6 +31,8 @@ try {
              def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
              env.PATH = "${mvnHome}/bin:${env.PATH}"
 
+             sh spring-javaformat:apply
+         
              // Execute the Maven build
              sh 'mvn -Dmaven.test.failure.ignore=true clean package' // Adjust the Maven goals as needed
          }
