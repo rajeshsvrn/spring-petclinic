@@ -22,93 +22,93 @@ node {
     }
 
 
-// try {
-//      // Add more stages for your build, test, and deployment steps here
+try {
+     // Add more stages for your build, test, and deployment steps here
 
-//       // Build the Maven application
-//      stage('Build SW') {
-//              // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
-//              def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
-//              env.PATH = "${mvnHome}/bin:${env.PATH}"
+      // Build the Maven application
+     stage('Build SW') {
+             // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
+             def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
+             env.PATH = "${mvnHome}/bin:${env.PATH}"
 
-//              // Execute the Maven build
-//              sh "mvn clean package" // Adjust the Maven goals as needed
-//          }
-//  } catch (Exception e) {
-//          currentBuild.result = 'FAILURE'
-//          error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
-//      } finally {
-//        // Post-build stage
-//     stage('Junit Test') {
-//              if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-//                  // Run JUnit tests only if the "Build" stage is successful
-//                  junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
-//              }
-//          }
-//      }
+             // Execute the Maven build
+             sh "mvn clean package" // Adjust the Maven goals as needed
+         }
+ } catch (Exception e) {
+         currentBuild.result = 'FAILURE'
+         error("Exception caught: ${e.message}") e  // Re-throw the exception to mark the build as a failure
+     } finally {
+       // Post-build stage
+    stage('Junit Test') {
+             if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                 // Run JUnit tests only if the "Build" stage is successful
+                 junit '**/target/surefire-reports/*.xml' // Path to your JUnit test report XML files
+             }
+         }
+     }
 
 
 
-//  stage('SonarQube Analysis') {
-//              def scannerHome = tool 'sonarqube' // Ensure you have configured the "SonarQube Scanner" tool in Jenkins
+ stage('SonarQube Analysis') {
+             def scannerHome = tool 'sonarqube' // Ensure you have configured the "SonarQube Scanner" tool in Jenkins
 
-//              withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube') {
-//                  sh """
-//                      ${scannerHome}/bin/sonar-scanner \
-//                      -Dsonar.projectKey=petclinic \
-//                      -Dsonar.projectName=petclinic \
-//                      -Dsonar.projectVersion=1.0 \
-//                      -Dsonar.sources=src/main \
-//                      -Dsonar.tests=src/test \
-//                      -Dsonar.java.binaries=target/classes \
-//                      -Dsonar.language=java \
-//                      -Dsonar.sourceEncoding=UTF-8 \
-//                      -Dsonar.java.libraries=target/classes
-//                  """
-//              }
-//          }
-//   stage("Quality Gate check"){
-//            timeout(time: 1, unit: 'HOURS') {
-//                def qg = waitForQualityGate()
-//                if (qg.status != 'OK') {
-//                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
-//                }
-//            }
-//        }
+             withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube') {
+                 sh """
+                     ${scannerHome}/bin/sonar-scanner \
+                     -Dsonar.projectKey=petclinic \
+                     -Dsonar.projectName=petclinic \
+                     -Dsonar.projectVersion=1.0 \
+                     -Dsonar.sources=src/main \
+                     -Dsonar.tests=src/test \
+                     -Dsonar.java.binaries=target/classes \
+                     -Dsonar.language=java \
+                     -Dsonar.sourceEncoding=UTF-8 \
+                     -Dsonar.java.libraries=target/classes
+                 """
+             }
+         }
+  stage("Quality Gate check"){
+           timeout(time: 1, unit: 'HOURS') {
+               def qg = waitForQualityGate()
+               if (qg.status != 'OK') {
+                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
+               }
+           }
+       }
 
-//     stage("Publish artifact to nexus") {
-//     pom = readMavenPom file: "pom.xml";
-//     filesByGlob = findFiles(glob: "target/*.${pom.packaging}"); 
-//     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-//     artifactPath = filesByGlob[0].path;
-//     artifactExists = fileExists artifactPath;
-//     if(artifactExists) {
-//         echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
-//         nexusArtifactUploader(
-//             nexusVersion: NEXUS_VERSION,
-//             protocol: NEXUS_PROTOCOL,
-//             nexusUrl: NEXUS_URL,
-//             groupId: pom.groupId,
-//             version: pom.version,
-//             repository: NEXUS_REPOSITORY,
-//             credentialsId: NEXUS_CREDENTIAL_ID,
-//             artifacts: [
-//                 [artifactId: pom.artifactId,
-//                 classifier: '',
-//                 file: artifactPath,
-//                 type: pom.packaging],
+    stage("Publish artifact to nexus") {
+    pom = readMavenPom file: "pom.xml";
+    filesByGlob = findFiles(glob: "target/*.${pom.packaging}"); 
+    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+    artifactPath = filesByGlob[0].path;
+    artifactExists = fileExists artifactPath;
+    if(artifactExists) {
+        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+        nexusArtifactUploader(
+            nexusVersion: NEXUS_VERSION,
+            protocol: NEXUS_PROTOCOL,
+            nexusUrl: NEXUS_URL,
+            groupId: pom.groupId,
+            version: pom.version,
+            repository: NEXUS_REPOSITORY,
+            credentialsId: NEXUS_CREDENTIAL_ID,
+            artifacts: [
+                [artifactId: pom.artifactId,
+                classifier: '',
+                file: artifactPath,
+                type: pom.packaging],
 
-//                 [artifactId: pom.artifactId,
-//                 classifier: '',
-//                 file: "pom.xml",
-//                 type: "pom"]
-//             ]
-//         );
+                [artifactId: pom.artifactId,
+                classifier: '',
+                file: "pom.xml",
+                type: "pom"]
+            ]
+        );
 
-//     } else {
-//         error "*** File: ${artifactPath}, could not be found";
-//     }
-// }
+    } else {
+        error "*** File: ${artifactPath}, could not be found";
+    }
+}
 
 
     stage('Build and Push Container Image') {
