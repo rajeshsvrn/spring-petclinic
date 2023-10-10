@@ -21,7 +21,7 @@ try {
      stage('Build SW') {
              // Set up the Maven environment (assuming you have Maven installed on your Jenkins agent)
              def mvnHome = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
-             env.PATH = "${mvnHome}/bin:${env.PATH}"
+             //env.PATH = "${mvnHome}/bin:${env.PATH}"
 
              // Execute the Maven build
              sh "mvn clean package" // Adjust the Maven goals as needed
