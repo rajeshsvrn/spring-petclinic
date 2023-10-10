@@ -13,7 +13,7 @@ node {
         ])
     }
 }
-
+node {
 try {
      // Add more stages for your build, test, and deployment steps here
 
@@ -38,3 +38,4 @@ try {
              }
          }
      }
+}
