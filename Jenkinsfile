@@ -129,7 +129,7 @@ node {
        
             dir('/var/lib/jenkins/workspace/CICD project') { // Change to the directory containing your Dockerfile and application code
                 sh """
-                    docker buildx build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                    docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                     docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
                     docker push ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
                 """
