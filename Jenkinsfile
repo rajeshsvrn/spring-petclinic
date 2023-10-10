@@ -12,3 +12,4 @@ node {
             userRemoteConfigs: [[credentialsId: credentialsId, url: githubRepoUrl]]
         ])
     }
+}
