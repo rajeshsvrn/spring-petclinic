@@ -7,7 +7,7 @@ node {
     
     def NEXUS_VERSION = "nexus3"
     def NEXUS_PROTOCOL = "http"
-    def NEXUS_URL = "20.42.58.50/:8081"
+    def NEXUS_URL = "20.42.58.50:8081"
     def NEXUS_REPOSITORY = "maven-hosted"
     def NEXUS_CREDENTIAL_ID = "nexus"
 
