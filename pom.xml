@@ -111,13 +111,11 @@
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
     </dependency>
-  </dependencies>
-
-    <dependency>
+     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
     </dependency>
-
+  </dependencies>
   <build>
     <plugins>
       <plugin>
