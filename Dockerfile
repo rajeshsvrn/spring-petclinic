@@ -7,4 +7,4 @@ EXPOSE 8080
 COPY target/*.jar /usr/bin/spring-petclinic.jar
 
 # run application with this command line 
-ENTRYPOINT ["java","-jar","/usr/bin/spring-petclinic.jar","--server.port=8080"]
+ENTRYPOINT ["java","-jar","/usr/bin/spring-petclinic.war","--server.port=8080"]
